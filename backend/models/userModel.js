@@ -5,6 +5,7 @@ mongoose.plugin(slug);
 
 const userSchema = new mongoose.Schema({
   name: {type: String, trim: true, required: true, maxlength: 32},
+  lname: {type: String, trim: true, required: true, maxlength: 32},
   username: {type:String, trim:true, maxlength:255, unique:true},
   email: {type: String, trim: true, required: true, unique: true, lowercase: true,
         maxlength: 32, dropDups: true, match: /\S+@\S+\.\S+/},

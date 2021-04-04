@@ -11,7 +11,7 @@ const {register, login, logout, requireLogin, isAuth, isAdmin, read, becomeAdmin
 router.post("/register", validate, register);
 router.post("/login", login);
 router.post("/logout", logout);
-router.post("/user/default", requireLogin, isAuth, isAdmin, createAdmin);
+router.get("/user/default", requireLogin, isAuth, isAdmin, createAdmin);
 router.put("/user/make-admin", requireLogin, isAuth, isAdmin, becomeAdmin);
 
 router.get("/users/read", requireLogin, isAuth, isAdmin, read);

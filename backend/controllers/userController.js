@@ -10,43 +10,32 @@ const {OAuth2Client} = require('google-auth-library');
 //sgMail.setApiKey(process.env.MAIL_KEY);
 
 
-exports.register = (req, res) => {
-  const {name, email, password} = req.body;
-  const username = name + '-' + Date.now().toString();
+exports.register = async (req, res) => {
+  const {name, lname, email, password} = req.body;
+  //const username = name + '-' + Date.now().toString();
+  const username = name + '-' + lname;
 
-  if(!name || !email || !password){
+  if(!name || !lname || !email || !password){
     return res.status(400).json({error: "Campo * obligatorio"});
-  }else{
-    User.findOne({email: email}).exec().then(user => {
-      if(user){
-        return res.status(409).json({
-          error: "Este email ya existe, puedes loguearte!"
-        });
-      }else{
-        bcrypt.hash(password, 10, (err, hash) => {
-          if(err){
-            return res.status(500).json({error: err});
-          }else{
-            const newUser = new User({
-              name, username, email, password:hash, sku:false, avatar:'avatar/avatar.jpg', 
-              cover:'avatar/cover.jpg', isVerified:false, status:true
-            });
-            newUser.save((err, user) => {
-              if(err){
-                res.status(400).json({error: "Hubo un error al registrarse"});
-              }else{
-                const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET);
-                res.cookie('t', token, {expire: new Date() + 9999});
-                const {_id, name, sku} = user;
-                return res.json({token, user: {_id, name, sku}});
-              }
-            })
-          }
-        })
-      }
-    })
   }
-
+  const uExist = await User.findOne({email: email});
+  if(uExist) return res.status(403).json({
+    error: "Este email ya existe, puedes loguearte!"
+  }) 
+  const hashed =  await bcrypt.hash(password, 10);
+  const user = await new User({ name, lname, username, email, password:hashed, sku:false,  
+               avatar:'avatar/avatar.jpg', cover:'avatar/cover.jpg', isVerified:false, status:true });
+  const newUser = await user.save();
+  newUser.save((err, user) => {
+    if(err){
+      res.status(400).json({error: "Hubo un error al registrarse"});
+    }else{
+      const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET);
+      res.cookie('t', token, {expire: new Date() + 9999});
+      const {_id, name, sku} = user;
+      return res.json({token, user: {_id, name, sku}});
+    }
+  });
 };
 
 exports.login = async (req, res) => {
@@ -63,7 +52,7 @@ exports.login = async (req, res) => {
       });
     }
     if(!bcrypt.compareSync(password, user.password)){
-      return res.statut(400).json({
+      return res.status(400).json({
         error: "Usuario ó Contraseña incorrecta"
       });
     }else{
@@ -152,7 +141,8 @@ exports.createAdmin = (req, res) => {
 			});
 		}else{
 			const admin = new User({
-				name: 'Jon Colas',
+				name: 'Jon',
+				lname: 'Colas',
 				username: 'jon-colas',
 				email: 'jonas.colas@yahoo.com',
 				password: hash,
