@@ -1,9 +1,14 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import React, {Fragment} from 'react'
+import {Link, useHistory} from 'react-router-dom'
+import { isAuth, logout } from '../cores/ApiUser'
 import logo from './logo.jpeg'
 
 
 const Header = () => {
+  const {user, token} = isAuth
+  
+  const history = useHistory()
+
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark osahan-nav-top p-0">
       <div className="container">
@@ -12,9 +17,9 @@ const Header = () => {
         </Link>
         <form className="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
           <div className="input-group">
-            <input type="text" className="form-control shadow-none border-0" placeholder="Search people..." />
+            <input type="text" className="form-control shadow-none border-0" placeholder="Buscar persona..." />
             <div className="input-group-append">
-              <button className="btn" type="button">
+              <button className="btn btn-primary" type="button">
                 <i className="feather-search" />
               </button>
             </div>
@@ -29,9 +34,9 @@ const Header = () => {
             <div className="dropdown-menu dropdown-menu-right p-3 shadow-sm animated--grow-in">
               <form className="form-inline mr-auto w-100 navbar-search">
                 <div className="input-group">
-                  <input type="text" className="form-control border-0 shadow-none" placeholder="Search people..." />
+                  <input type="text" className="form-control border-0 shadow-none" placeholder="Buscar persona..." />
                   <div className="input-group-append">
-                    <button className="btn" type="button">
+                    <button className="btn btn-primary" type="button">
                       <i className="feather-search" />
                     </button>
                   </div>
@@ -39,58 +44,78 @@ const Header = () => {
               </form>
             </div>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"/"}>
-              <i className="feather-users mr-2" />
-              <span className="d-none d-lg-inline">Connection</span>
-            </Link>
-          </li>
-          <li className="nav-item dropdown no-arrow mx-1 osahan-list-dropdown">
-            <a className="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-              <i className="feather-message-square" />
-              <span className="badge badge-danger badge-counter">8</span>
-            </a>
-            <div className="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
-              <h6 className="dropdown-header">
-                Message Center
-              </h6>
-              <a className="dropdown-item d-flex align-items-center" href="messages.html">
-                <div className="dropdown-list-image mr-3">
-                  <img className="rounded-circle" src="/assets/img/p1.png" alt="" />
-                  <div className="status-indicator bg-success" />
+          { !isAuth() ? (
+            <Fragment>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/login"}>
+                  <i className="feather-log-in mr-2" />
+                  <span className="d-none d-lg-inline">Ingresar</span>
+                </Link>
+              </li>    
+              <li className="nav-item">
+                <Link className="nav-link" to={"/register"}>
+                  <i className="feather-lock mr-2" />
+                  <span className="d-none d-lg-inline">Unirme</span>
+                </Link>
+              </li>    
+            </Fragment>
+          ) : (
+            <Fragment>
+              <li className="nav-item dropdown no-arrow mx-1 osahan-list-dropdown">
+                <a className="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                  <i className="feather-message-square" />
+                  <span className="badge badge-danger badge-counter">8</span>
+                </a>
+                <div className="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
+                  <h6 className="dropdown-header">
+                    Message Center
+                  </h6>
+                  <a className="dropdown-item d-flex align-items-center" href="messages.html">
+                    <div className="dropdown-list-image mr-3">
+                      <img className="rounded-circle" src="/assets/img/p1.png" alt="" />
+                      <div className="status-indicator bg-success" />
+                    </div>
+                    <div className="font-weight-bold overflow-hidden">
+                      <div className="text-truncate">
+                        Hi there! I am wondering if you can help me with a problem I've been having.
+                      </div>
+                      <div className="small text-gray-500">Emily Fowler · 58m</div>
+                    </div>
+                  </a>
+                  <a className="dropdown-item text-center small text-gray-500" href="messages.html">Read More Messages</a>
                 </div>
-                <div className="font-weight-bold overflow-hidden">
-                  <div className="text-truncate">
-                    Hi there! I am wondering if you can help me with a problem I've been having.
+              </li>
+              <li className="nav-item dropdown no-arrow ml-1 osahan-profile-dropdown">
+                <a className="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown">
+                  <img className="img-profile rounded-circle" src="/assets/img/p13.png" alt="av" />
+                </a>
+                <div className="dropdown-menu dropdown-menu-right shadow-sm">
+                  <div className="p-3 d-flex align-items-center">
+                    <div className="dropdown-list-image mr-3">
+                      <img className="rounded-circle" src="/assets/img/user.png" alt="avat" />
+                      <div className="status-indicator bg-success" />
+                    </div>
+                    <div className="font-weight-bold">
+                      <div className="text-truncate">{user?.name}</div>
+                      <div className="small text-gray-500">UI/UX Designer</div>
+                    </div>
                   </div>
-                  <div className="small text-gray-500">Emily Fowler · 58m</div>
+                  <div className="dropdown-divider" />
+                  <Link className="dropdown-item" to={"/profile"}>
+                    <i className="feather-edit mr-1" /> Mi Cuenta
+                  </Link>
+                  <Link className="dropdown-item" to={"/edit-profile"}>
+                    <i className="feather-user mr-1" /> Editar Perfil
+                  </Link>
+                  <div className="dropdown-divider" />
+                  <a className="dropdown-item" style={{cursor: "pointer"}}
+                    onClick={() => logout(() => {history.push("/")} )} >
+                    <i className="feather-log-out mr-1" /> Salir
+                  </a>
                 </div>
-              </a>
-              <a className="dropdown-item text-center small text-gray-500" href="messages.html">Read More Messages</a>
-            </div>
-          </li>
-          <li className="nav-item dropdown no-arrow ml-1 osahan-profile-dropdown">
-            <a className="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown">
-              <img className="img-profile rounded-circle" src="/assets/img/p13.png" alt="av" />
-            </a>
-            <div className="dropdown-menu dropdown-menu-right shadow-sm">
-              <div className="p-3 d-flex align-items-center">
-                <div className="dropdown-list-image mr-3">
-                  <img className="rounded-circle" src="/assets/img/user.png" alt="avat" />
-                  <div className="status-indicator bg-success" />
-                </div>
-                <div className="font-weight-bold">
-                  <div className="text-truncate">Gurdeep Osahan</div>
-                  <div className="small text-gray-500">UI/UX Designer</div>
-                </div>
-              </div>
-              <div className="dropdown-divider" />
-              <Link className="dropdown-item" to={"/profile"}><i className="feather-edit mr-1" /> My Account</Link>
-              <Link className="dropdown-item" to={"/edit-profile"}><i className="feather-user mr-1" /> Edit Profile</Link>
-              <div className="dropdown-divider" />
-              <Link className="dropdown-item" to={"/logout"}><i className="feather-log-out mr-1" /> Logout</Link>
-            </div>
-          </li>
+              </li>
+            </Fragment>
+          )}
         </ul>
       </div>
     </nav>

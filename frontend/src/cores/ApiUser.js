@@ -15,7 +15,7 @@ export const registerUser = (userData) => {
   .catch(error => console.log(error));
 };
 
-export const login = (userData) => {
+export const loginUser = (userData) => {
   return fetch(`${API}/login`, {
     method: 'POST',
     headers: {
@@ -25,11 +25,14 @@ export const login = (userData) => {
     body: JSON.stringify(userData)
   })  
   .then(resp => {return resp.json()})
-  .catch(err => console.log(err));
+  .catch(error => {
+    console.log(error)
+    //return error.json();
+  });
 };
 
 export const auth = (userData, next) => {
-  if(typeof window === 'undefined'){
+  if(typeof window !== 'undefined'){
     localStorage.setItem('jwt', JSON.stringify(userData));
     next();
   }

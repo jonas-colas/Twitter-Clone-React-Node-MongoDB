@@ -1,39 +1,86 @@
-import React, {useState, useEffect} from 'react'
-import {Link, Redirect} from 'react-router-dom'
+import React, {Fragment, useState, useEffect} from 'react'
+import {Link, useHistory} from 'react-router-dom'
 import {useForm} from 'react-hook-form'
 import GoogleButton from 'react-google-button'
 import logoh from '../components/logoh.jpeg'
 import {registerUser, auth, isAuth} from '../cores/ApiUser'
 import Loader from '../components/Loader'
+import Header from '../components/Header'
+import Swal from 'sweetalert2'
 
 const Register = () => {
   const {register, handleSubmit, errors} = useForm()
 
   const {user} = isAuth()
+  const history = useHistory()
 
-  const [loading, setLoading]       = useState(false)
-  const [error, setError]           = useState(false)
-  const [redirectTo, setRedirectTo] = useState(false)
-  const [showP, setShowP]           = useState('password')
+  const [loading, setLoading] = useState(false)
+  const [error, setError]     = useState(false)
+  const [showP, setShowP]     = useState('password')
+
+  const Toast = Swal.mixin({
+	  toast: true,
+	  position: 'top-end',
+	  showConfirmButton: false,
+	  timer: 3000,
+	  timerProgressBar: true,
+	  didOpen: (toast) => {
+	    toast.addEventListener('mouseenter', Swal.stopTimer)
+	    toast.addEventListener('mouseleave', Swal.resumeTimer)
+	  }
+	})
 
   const onSubmit = (userData) => {
-    
+    setLoading(true)
+    const {name, lname, email, password} = userData
+
+    if(!name || !lname || !email || !password){
+      setLoading(false)
+      Toast.fire({
+			  icon: 'error',
+			  title: 'Todos los campos son obligatorios*',
+			})
+      return setError("Todos los campos son obligatorios*")
+    } 
+
+    registerUser(userData).then(data => {
+      if(data.error){
+        setLoading(false)
+        setError(data.error)
+        Toast.fire({
+          icon: 'error',
+          title: 'Todos los campos son obligatorios*',
+        })
+      }else{
+        auth(data, () => {
+          setLoading(false)
+          history.push('/profile')
+        })
+      }
+    })
   }
   
+  const showError = () => {
+    error && (
+      <div className="text-danger"><i className="fa fa-times-circle" /> {error}</div>
+    )
+  }
 
   return (
-    <div className="bg-white">
+    <Fragment>
+      <Header />
+      <div className="bg-white">
         <div className="container">
           <div className="row justify-content-center align-items-center d-flex vh-100">
             <div className="col-md-4 mx-auto">
               <div className="osahan-login py-4">
                 <div className="text-center mb-4">
-                  <a href="index.html">
-                    <img src={logoh} alt="logo-ach" /></a>
+                  <Link to={'/'}><img src={logoh} alt="logo-ach" /></Link>
                   <h5 className="font-weight-bold mt-3">Unete a ACH</h5>
                   <p className="text-muted">Asociación Civil Haitiana </p>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
+                {showError()}
                   <div className="form-row">
                     <div className="col">
                       <div className="form-group">
@@ -73,7 +120,7 @@ const Register = () => {
                     {errors.email && <small className="text-danger">{errors.email.message}</small>}
                   </div>
                   <div className="form-group">
-                    <label className="mb-1">Contraseña (6 ó mas caracteres)</label>
+                    <label className="mb-1">Contraseña <small>(6 ó mas caracteres*)</small></label>
                     <div className="position-relative icon-form-control">
                       <i className="feather-unlock position-absolute" />
                       <input type={showP} className="form-control" 
@@ -88,7 +135,7 @@ const Register = () => {
                         setShowP('password') 
                       }
                     }} /> 
-                    <small> Mostrar Contraseña</small>
+                    <small> Mostrar Contraseña</small> <br />
                     {errors.password && <small className="text-danger">{errors.password.message}</small>}
                   </div>
                   <div className="form-group">
@@ -96,7 +143,9 @@ const Register = () => {
                       Estas De Acuerdo con los <Link to={"/"}>Terminos y Condiciones</Link>
                     </label>
                   </div>
-                  <button className="btn btn-primary btn-block text-uppercase" type="submit"> Unirme </button>
+                  <button className="btn btn-primary btn-block text-uppercase" type="submit">
+                    Unirme  {loading && <i className="fa fa-spinner fa-spin" />}
+                  </button>
                   <div className="text-center mt-3 border-bottom pb-3">
                     <p className="small text-muted">Ó Ingresar con</p>
                     <div className="row">
@@ -107,8 +156,7 @@ const Register = () => {
                     </div>
                   </div>
                   <div className="py-3 d-flex align-item-center">
-                    <Link to={"/forgot-password"}>Olvide mi Contraseña</Link>
-                    <span className="ml-auto"> Ya Estas Registrado ? 
+                    <span className="ml-auto"> ¿Ya estas Registrado? 
                       <Link className="font-weight-bold" to={"/login"}> Ingresar</Link>
                     </span>
                   </div>
@@ -118,6 +166,7 @@ const Register = () => {
           </div>
         </div>
       </div>
+    </Fragment>
   )
 }
 

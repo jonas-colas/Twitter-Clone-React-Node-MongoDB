@@ -1,6 +1,6 @@
 import React , {Fragment} from 'react'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-import Header from './components/Header'
+// import Header from './components/Header'
 import Home from './pages/Home'
 import Chat from './pages/Chat'
 import Login from './pages/Login'
@@ -15,12 +15,12 @@ const App = () => {
   return (
     <Router>
       <Fragment>
-        <Header />
+        {/* <Header /> */}
         <Switch>
           <IsLoggedIn path={"/"} exact component={Home} />
           <IsLoggedIn path={"/chat"} exact component={Chat} />
           
-          <IsLoggedIn path={"/user"} exact component={Profile} />
+          <IsLoggedIn path={"/profile"} exact component={Profile} />
 
           <IsNotLoggedIn path={"/login"} exact component={Login} />
           <IsNotLoggedIn path={"/register"} exact component={Register} />
