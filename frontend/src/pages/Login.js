@@ -106,9 +106,14 @@ const Register = () => {
                     <small> Mostrar Contraseña</small> <br />
                     {errors.password && <small className="text-danger">{errors.password.message}</small>}
                   </div>
-                  <button className="btn btn-primary btn-block text-uppercase" type="submit"> 
-                    Ingrear {loading && <i className="fa fa-spinner fa-spin" />}
-                  </button>
+                  { loading ? (
+                      <button className="btn btn-primary btn-block text-uppercase btn-disabled" disabled> 
+                        <i className="fa fa-refresh fa-spin" />
+                      </button>
+                    ) : (
+                      <button className="btn btn-primary btn-block text-uppercase" type="submit"> Ingrear </button>
+                    ) 
+                  }
                   <div className="text-center mt-3 border-bottom pb-3">
                     <p className="small text-muted">Ó Ingresar con</p>
                     <div className="row">

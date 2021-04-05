@@ -5,9 +5,11 @@ import logo from './logo.jpeg'
 
 
 const Header = () => {
-  const {user, token} = isAuth
-  
+  const {user, token} = isAuth()
+  //console.log(user)
   const history = useHistory()
+
+  const base = "https://weon.s3.amazonaws.com/"
 
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark osahan-nav-top p-0">
@@ -55,7 +57,7 @@ const Header = () => {
               <li className="nav-item">
                 <Link className="nav-link" to={"/register"}>
                   <i className="feather-lock mr-2" />
-                  <span className="d-none d-lg-inline">Unirme</span>
+                  <span className="d-none d-lg-inline">Registrar</span>
                 </Link>
               </li>    
             </Fragment>
@@ -87,24 +89,23 @@ const Header = () => {
               </li>
               <li className="nav-item dropdown no-arrow ml-1 osahan-profile-dropdown">
                 <a className="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown">
-                  <img className="img-profile rounded-circle" src="/assets/img/p13.png" alt="av" />
+                {user && <img className="img-profile rounded-circle" src={base+user.avatar} alt="av" />}
                 </a>
                 <div className="dropdown-menu dropdown-menu-right shadow-sm">
                   <div className="p-3 d-flex align-items-center">
                     <div className="dropdown-list-image mr-3">
-                      <img className="rounded-circle" src="/assets/img/user.png" alt="avat" />
+                      {user && <img className="rounded-circle" src={base+user.avatar} alt="avat" />}
                       <div className="status-indicator bg-success" />
                     </div>
                     <div className="font-weight-bold">
                       <div className="text-truncate">{user?.name}</div>
-                      <div className="small text-gray-500">UI/UX Designer</div>
                     </div>
                   </div>
                   <div className="dropdown-divider" />
                   <Link className="dropdown-item" to={"/profile"}>
                     <i className="feather-edit mr-1" /> Mi Cuenta
                   </Link>
-                  <Link className="dropdown-item" to={"/edit-profile"}>
+                  <Link className="dropdown-item" to={"/profile/edit"}>
                     <i className="feather-user mr-1" /> Editar Perfil
                   </Link>
                   <div className="dropdown-divider" />

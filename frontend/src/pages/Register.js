@@ -36,10 +36,6 @@ const Register = () => {
 
     if(!name || !lname || !email || !password){
       setLoading(false)
-      Toast.fire({
-			  icon: 'error',
-			  title: 'Todos los campos son obligatorios*',
-			})
       return setError("Todos los campos son obligatorios*")
     } 
 
@@ -49,7 +45,7 @@ const Register = () => {
         setError(data.error)
         Toast.fire({
           icon: 'error',
-          title: 'Todos los campos son obligatorios*',
+          title: data.error,
         })
       }else{
         auth(data, () => {
@@ -143,9 +139,14 @@ const Register = () => {
                       Estas De Acuerdo con los <Link to={"/"}>Terminos y Condiciones</Link>
                     </label>
                   </div>
-                  <button className="btn btn-primary btn-block text-uppercase" type="submit">
-                    Unirme  {loading && <i className="fa fa-spinner fa-spin" />}
-                  </button>
+                  { loading ? (
+                      <button className="btn btn-primary btn-block text-uppercase btn-disabled" disabled> 
+                        <i className="fa fa-refresh fa-spin" />
+                      </button>
+                    ) : (
+                      <button className="btn btn-primary btn-block text-uppercase" type="submit">Unirme</button>
+                    ) 
+                  }
                   <div className="text-center mt-3 border-bottom pb-3">
                     <p className="small text-muted">Ó Ingresar con</p>
                     <div className="row">

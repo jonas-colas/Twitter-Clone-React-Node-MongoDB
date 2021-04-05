@@ -31,6 +31,55 @@ export const loginUser = (userData) => {
   });
 };
 
+export const getUser = (userId) => {
+  return fetch(`${API}/user/${userId}`, {
+    method: 'GET',
+  })  
+  .then(resp => {return resp.json()})
+  .catch(error => {
+    console.log(error)
+  });
+};
+
+export const updateUser = (userId, token, userData) => {
+  return fetch(`${API}/user/update/${userId}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(userData)
+  })  
+  .then(resp => {return resp.json()})
+  .catch(error => { console.log(error) });
+};
+
+export const updateStorage = (user, next) => {
+  if(typeof window !== 'undefined'){
+    if(localStorage.getItem('jwt')){
+      let auth = JSON.parse(localStorage.getItem('jwt'));
+      auth.user = user;
+      localStorage.setItem('jwt', JSON.stringify(auth));
+      next();
+    }
+  }
+};
+
+export const updatePassword = (userId, token, userData) => {
+  return fetch(`${API}/user/password/${userId}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(userData)
+  })  
+  .then(resp => {return resp.json()})
+  .catch(error => { console.log(error) });
+};
+
 export const auth = (userData, next) => {
   if(typeof window !== 'undefined'){
     localStorage.setItem('jwt', JSON.stringify(userData));
