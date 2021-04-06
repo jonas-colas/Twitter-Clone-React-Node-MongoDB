@@ -14,13 +14,14 @@ router.post("/logout", logout);
 router.get("/user/default", requireLogin, isAuth, isAdmin, createAdmin);
 router.put("/user/make-admin", requireLogin, isAuth, isAdmin, becomeAdmin);
 
-router.get("/users/read", requireLogin, isAuth, isAdmin, read);
-router.get("/users/:userSlug", getUserPublic);
-router.get("/users/:userId", getUser);
-router.put("/users/update/:userId", requireLogin, isAuth, updateBio);
+router.get("/user/read", requireLogin, isAuth, isAdmin, read);
+router.get("/user/by/:userSlug", getUserPublic);
+router.get("/user/:userId", getUser);
+router.put("/user/update/:userId", requireLogin, isAuth, updateBio);
+router.put("/user/password/:userId", requireLogin, isAuth, changePassword);
 router.put("/user/avatar/update/:userId", requireLogin, isAuth, updateAvatar);
 router.put("/user/cover/update/:userId", requireLogin, isAuth, updateCover);
-router.put("/user/password/:userId", requireLogin, isAuth, changePassword);
+
 
 router.param("userId", userById);
 

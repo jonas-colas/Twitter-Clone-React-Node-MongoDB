@@ -32,8 +32,8 @@ exports.register = async (req, res) => {
     }else{
       const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET);
       res.cookie('t', token, {expire: new Date() + 9999});
-      const {_id, name, sku} = user;
-      return res.json({token, user: {_id, name, sku}});
+      const {_id, name, lname, avatar, slug, sku} = user;
+      return res.json({token, user: {_id, name, lname, avatar, slug, sku}});
     }
   });
 };
@@ -58,8 +58,8 @@ exports.login = async (req, res) => {
     }else{
       const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET);
       res.cookie('t', token, {expire: new Date() + 9999});
-      const {_id, name, sku} = user;
-      return res.json({token, user: {_id, name, sku}});
+      const {_id, name, lname, avatar, slug, sku} = user;
+      return res.json({token, user: {_id, name, lname, avatar, slug, sku}});
     }
   })
 };
@@ -88,21 +88,72 @@ exports.getUserPublic = (req, res) => {
   
 };
 
-exports.updateBio = (req, res) => {
-  
+exports.updateBio = async (req, res) => {
+  await User.updateOne(req.profile, {$set: req.body}).exec((err, user) => {
+    if(err || !user){
+      return res.status(400).json({
+        error: "No se pudo actualizar el perfil"
+      })
+    }else{
+      User.findById(req.profile).select('_id name lname sku slug avatar').exec((err, newUser) => {
+        if(err || !newUser){
+          return res.status(400).json({
+            error: "Hubo un error al actualizar el perfil"
+          })
+        }else{
+          res.json(newUser);
+        }
+      })
+    }
+  })
 };
 
-exports.updateAvatar = (req, res) => {
-  
+exports.updateAvatar = async (req, res) => {
+	//console.log(req.body.data)
+	if(!req.body.data){
+		return res.status(400).json({
+			error:"Foto de Perfil obligatorio"
+		});
+	}
+	
+  const {_id} =  req.profile;
+  try{
+	  const result = await User.updateOne({_id: _id}, {$set: {avatar: req.body.data}},{upsert: true});
+    if(result){
+      const upU = await User.findById(_id).select('_id name lname sku slug avatar');
+      res.status(200).json(upU);
+    }
+    
+  }catch(e){
+  	res.status(400).json({error: "Hubo un error al actualizar la foto"})
+  	throw({error: "Hubo un error al actualizar la foto"});
+  }
 };
 
 exports.updateCover = (req, res) => {
   
 };
 
-exports.changePassword = (req, res) => {
-  
-};
+exports.changePassword = async (req, res) => {
+	const {_id} = req.profile;
+	const {oldPass, newPass} = req.body;
+	//console.log(oldPass, newPass);
+	const currentUser = await User.findById(_id);
+	const {password}  = currentUser;
+	const comparePass = await bcrypt.compare(oldPass, password);
+	if(!comparePass){
+		return res.status(400).json({
+			error: "La contraseña actual no coincide con la que te registraste!"
+		});
+	}else{
+		const newHashed = await bcrypt.hash(newPass, 10);
+		currentUser.password = newHashed;
+		const newU = await currentUser.save();
+		res.status(200).json({
+			msg: "Su contraseña ha sido actualizado con exito!"
+		});
+	}
+}
 
 exports.requireLogin = expressJwt({
 	secret: process.env.JWT_SECRET,
@@ -110,7 +161,7 @@ exports.requireLogin = expressJwt({
 });
 
 exports.isAuth = (req, res, next) => {
-  let user = req.profile && req.auth && req.profile._id === req.auth._id;
+  let user = req.profile && req.auth && req.profile._id == req.auth._id;
   if(!user){
     return res.status(403).json({error: "Acceso Denegado"});
   }
