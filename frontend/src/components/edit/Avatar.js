@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import loaderSmall from '../loaderSmall.gif'
 
 
-const Aside = () => {
+const Avatar = () => {
   const {user, token} = isAuth()
   const userId = user._id
   const base = "https://achme.s3.amazonaws.com/"
@@ -36,16 +36,16 @@ const Aside = () => {
   }
   
   const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
+	  toast: true,
+	  position: 'top-end',
+	  showConfirmButton: false,
+	  timer: 3000,
+	  timerProgressBar: true,
+	  didOpen: (toast) => {
+	    toast.addEventListener('mouseenter', Swal.stopTimer)
+	    toast.addEventListener('mouseleave', Swal.resumeTimer)
+	  }
+	})
 
   const config = {
     bucketName: process.env.REACT_APP_AWS_BUCKET, 
@@ -56,7 +56,7 @@ const Aside = () => {
     s3Url: process.env.REACT_APP_AWS_URL,
   }
 
-  const S3Client = new S3(config);
+	const S3Client = new S3(config);
 
   const picUpload = e => {
     e.preventDefault()
@@ -88,19 +88,19 @@ const Aside = () => {
     setLoading(true)
 
     try{
-      const stored = await S3Client.uploadFile(img)
+    	const stored = await S3Client.uploadFile(img)
       const foto = await updateFoto(userId, token, stored.key)
       const newAv = await updateStorage(foto, () => {})
       Toast.fire({
         icon: 'success',
         title: 'Foto actualizado con Exito!',
       })
-      setLoading(false)
+			setLoading(false)
       history.push(pathname)
     }catch(e){
-      setLoading(false)
-      setError(e)
-      throw(e)
+    	setLoading(false)
+    	setError(e)
+    	throw(e)
     }
   }
 
@@ -143,4 +143,4 @@ const Aside = () => {
   )
 }
 
-export default Aside
+export default Avatar

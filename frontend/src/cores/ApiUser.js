@@ -97,6 +97,22 @@ export const updateFoto = async (userId, token, userFoto) => {
 	.catch(error => console.log(error));
 };
 
+export const updateCover = async (userId, token, userFoto) => {
+	return await fetch(`${API}/user/cover/update/${userId}`, {
+		method: 'PUT',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`
+		},
+		body: JSON.stringify({data: userFoto})
+	})
+	.then(response => {
+		return response.json();
+	})
+	.catch(error => console.log(error));
+};
+
 export const auth = (userData, next) => {
   if(typeof window !== 'undefined'){
     localStorage.setItem('jwt', JSON.stringify(userData));

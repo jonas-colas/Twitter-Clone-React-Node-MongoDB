@@ -24,7 +24,7 @@ exports.register = async (req, res) => {
   }) 
   const hashed =  await bcrypt.hash(password, 10);
   const user = await new User({ name, lname, username, email, password:hashed, sku:false,  
-               avatar:'avatar/avatar.jpg', cover:'avatar/cover.jpg', isVerified:false, status:true });
+               avatar:'avatar/avatar.jpg', cover:'cover/cover.jpg', isVerified:false, status:true });
   const newUser = await user.save();
   newUser.save((err, user) => {
     if(err){
@@ -130,8 +130,22 @@ exports.updateAvatar = async (req, res) => {
   }
 };
 
-exports.updateCover = (req, res) => {
-  
+exports.updateCover = async (req, res) => {
+	//console.log(req.body.data)
+	if(!req.body.data){
+		return res.status(400).json({
+			error:"Foto de Perfil obligatorio"
+		});
+	}
+	
+  const {_id} =  req.profile;
+  try{
+	  const result = await User.updateOne({_id: _id}, {$set: {cover: req.body.data}},{upsert: true});
+    res.status(200).json({msg: "Cover actualizado con exito"});
+  }catch(e){
+  	res.status(400).json({error: "Hubo un error al actualizar la foto"})
+  	throw({error: "Hubo un error al actualizar la foto"});
+  }
 };
 
 exports.changePassword = async (req, res) => {
