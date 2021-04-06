@@ -56,6 +56,7 @@ export const updateUser = (userId, token, userData) => {
 };
 
 export const updateStorage = (user, next) => {
+  //console.log(user)
   if(typeof window !== 'undefined'){
     if(localStorage.getItem('jwt')){
       let auth = JSON.parse(localStorage.getItem('jwt'));
@@ -78,6 +79,22 @@ export const updatePassword = (userId, token, userData) => {
   })  
   .then(resp => {return resp.json()})
   .catch(error => { console.log(error) });
+};
+
+export const updateFoto = async (userId, token, userFoto) => {
+	return await fetch(`${API}/user/avatar/update/${userId}`, {
+		method: 'PUT',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`
+		},
+		body: JSON.stringify({data: userFoto})
+	})
+	.then(response => {
+		return response.json();
+	})
+	.catch(error => console.log(error));
 };
 
 export const auth = (userData, next) => {

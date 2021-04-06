@@ -6,10 +6,8 @@ import logo from './logo.jpeg'
 
 const Header = () => {
   const {user, token} = isAuth()
-  //console.log(user)
   const history = useHistory()
-
-  const base = "https://weon.s3.amazonaws.com/"
+  const base = "https://achme.s3.amazonaws.com/"
 
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark osahan-nav-top p-0">

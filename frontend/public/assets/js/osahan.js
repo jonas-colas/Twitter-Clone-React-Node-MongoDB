@@ -1,9 +1,3 @@
-/*
-Template Name: Olink - Job Portal & Social Network HTML
-Author: wrapbootstrap
-Author URI: https://wrapbootstrap.com/user/iamosahan
-Version: 1.0
-*/
 
 (function($) {
   "use strict"; // Start of use strict

@@ -66,6 +66,7 @@ const Form = () => {
           title: data.error,
         })
       }else{
+        console.log(data)
         updateStorage(data, () => {
           setLoading(false)
           setSuccess(true)
