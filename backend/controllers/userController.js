@@ -76,8 +76,13 @@ exports.userById = (req, res, next, id) => {
   });
 };
 
-exports.read = (req, res) => {
-  
+exports.read = async (req, res) => {
+  try{
+    const all = await User.find().select('_id name lname avatar slug');
+    return res.json(all);
+  }catch(e){
+    return res.status(400).json({error: "Error al listar los usuarios"});
+  }
 };
 
 exports.getUser = async (req, res) => {

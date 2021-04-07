@@ -14,7 +14,7 @@ router.post("/logout", logout);
 router.get("/user/default", requireLogin, isAuth, isAdmin, createAdmin);
 router.put("/user/make-admin", requireLogin, isAuth, isAdmin, becomeAdmin);
 
-router.get("/user/read", requireLogin, isAuth, isAdmin, read);
+router.get("/users/read", read);
 router.get("/user/by/:userSlug", getUserPublic);
 router.get("/user/:userId", getUser);
 router.put("/user/update/:userId", requireLogin, isAuth, updateBio);
