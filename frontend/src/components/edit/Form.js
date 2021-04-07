@@ -3,7 +3,7 @@ import {useHistory, useLocation} from 'react-router-dom'
 import {useForm} from 'react-hook-form'
 import {isAuth, getUser, updateUser, updateStorage} from '../../cores/ApiUser'
 import Password from './Password'
-import Swal from 'sweetalert2'
+import {Toast} from '../SweetAlert'
 
 const Form = () => {
   const {register, handleSubmit, errors} = useForm()
@@ -34,18 +34,6 @@ const Form = () => {
     })
   }
 
-  const Toast = Swal.mixin({
-	  toast: true,
-	  position: 'top-end',
-	  showConfirmButton: false,
-	  timer: 3000,
-	  timerProgressBar: true,
-	  didOpen: (toast) => {
-	    toast.addEventListener('mouseenter', Swal.stopTimer)
-	    toast.addEventListener('mouseleave', Swal.resumeTimer)
-	  }
-	})
-  
   const onSubmit = (userData) => {
     setLoading(true)
     const {name, lname, email, phone, about} = userData

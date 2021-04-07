@@ -1,7 +1,7 @@
 import React, {Fragment, useState} from 'react'
 import {useForm} from 'react-hook-form'
 import {isAuth, updatePassword} from '../../cores/ApiUser'
-import Swal from 'sweetalert2'
+import {Toast} from '../SweetAlert'
 
 const Password = () => {
   const {register, handleSubmit, errors} = useForm()
@@ -17,18 +17,6 @@ const Password = () => {
   const [errorConf, setErrorConf] 		= useState('')
   const [loading, setLoading]   			= useState(false)
   const [showP, setShowP]             = useState('password')
-
-  const Toast = Swal.mixin({
-	  toast: true,
-	  position: 'top-end',
-	  showConfirmButton: false,
-	  timer: 3000,
-	  timerProgressBar: true,
-	  didOpen: (toast) => {
-	    toast.addEventListener('mouseenter', Swal.stopTimer)
-	    toast.addEventListener('mouseleave', Swal.resumeTimer)
-	  }
-	})
 
   const onSubmit = (userData) => {
     if(oldPass === '') return setErrorOld("Ingrese la contraseña anterior")

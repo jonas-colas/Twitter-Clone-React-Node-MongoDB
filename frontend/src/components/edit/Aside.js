@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {useLocation, useHistory} from 'react-router-dom'
 import {isAuth, getUser, updateFoto, updateStorage} from '../../cores/ApiUser'
 import S3 from 'aws-s3'
-import Swal from 'sweetalert2'
+import {Toast} from '../SweetAlert'
 import loaderSmall from '../loaderSmall.gif'
 
 
@@ -35,18 +35,6 @@ const Aside = () => {
     })
   }
   
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
-
   const config = {
     bucketName: process.env.REACT_APP_AWS_BUCKET, 
     dirName: 'avatar',  

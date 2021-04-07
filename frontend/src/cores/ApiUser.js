@@ -31,6 +31,16 @@ export const loginUser = (userData) => {
   });
 };
 
+export const readUsers = () => {
+  return fetch(`${API}/users/read`, {
+    method: 'GET',
+  })  
+  .then(resp => {return resp.json()})
+  .catch(error => {
+    console.log(error)
+  });
+};
+
 export const getUser = (userId) => {
   return fetch(`${API}/user/${userId}`, {
     method: 'GET',

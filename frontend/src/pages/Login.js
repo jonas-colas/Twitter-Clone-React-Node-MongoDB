@@ -6,7 +6,7 @@ import logoh from '../components/logoh.jpeg'
 import {loginUser, auth, isAuth} from '../cores/ApiUser'
 import Loader from '../components/Loader'
 import Header from '../components/Header'
-import Swal from 'sweetalert2'
+import {Toast} from '../components/SweetAlert'
 
 const Register = () => {
   const {register, handleSubmit, errors} = useForm()
@@ -17,19 +17,6 @@ const Register = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState(false)
   const [showP, setShowP]     = useState('password')
-
-  const Toast = Swal.mixin({
-	  toast: true,
-	  position: 'top-end',
-	  showConfirmButton: false,
-	  timer: 3000,
-	  timerProgressBar: true,
-	  didOpen: (toast) => {
-	    toast.addEventListener('mouseenter', Swal.stopTimer)
-	    toast.addEventListener('mouseleave', Swal.resumeTimer)
-	  }
-	})
-
 
   const onSubmit = (userData) => {
     setLoading(true)
