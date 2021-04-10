@@ -3,7 +3,7 @@ import {useHistory, useLocation} from 'react-router-dom'
 import {useForm} from 'react-hook-form'
 import {isAuth, getUser, updateUser, updateStorage} from '../../cores/ApiUser'
 import Password from './Password'
-import {Toast} from '../SweetAlert'
+import {Toast} from '../Utils'
 
 const Form = () => {
   const {register, handleSubmit, errors} = useForm()

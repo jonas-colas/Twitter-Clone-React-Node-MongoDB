@@ -12,7 +12,9 @@ require('dotenv').config();
 const app = express();
 
 //Import Routes
-const userRoutes = require('./routes/userRoute');
+const userRoutes    = require('./routes/userRoute');
+const tweetRoutes   = require('./routes/tweetRoute');
+const retweetRoutes = require('./routes/retweetRoute');
 
 mongoose.connect(process.env.DATABASE, {
   useNewUrlParser: true,
@@ -31,6 +33,8 @@ app.use(validator());
 
 //Routes Middlewares
 app.use('/api', userRoutes);
+app.use('/api', tweetRoutes);
+app.use('/api', retweetRoutes);
 
 //Port
 const port = process.env.PORT || 1002;

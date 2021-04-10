@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {useLocation, useHistory} from 'react-router-dom'
 import {isAuth, getUser, updateFoto, updateStorage} from '../../cores/ApiUser'
 import S3 from 'aws-s3'
-import {Toast} from '../SweetAlert'
+import {Toast, config} from '../Utils'
 import loaderSmall from '../loaderSmall.gif'
 
 
@@ -35,15 +35,6 @@ const Aside = () => {
     })
   }
   
-  const config = {
-    bucketName: process.env.REACT_APP_AWS_BUCKET, 
-    dirName: 'avatar',  
-    region: process.env.REACT_APP_AWS_DEFAULT_REGION,
-    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
-    s3Url: process.env.REACT_APP_AWS_URL,
-  }
-
   const S3Client = new S3(config);
 
   const picUpload = e => {

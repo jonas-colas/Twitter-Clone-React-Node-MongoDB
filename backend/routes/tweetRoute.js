@@ -3,7 +3,7 @@ const router  = express.Router();
 
 
 const {userById, requireLogin, isAuth, isAdmin} = require('../controllers/userController');
-const {read, create, update, one, destroy} = require('../controllers/tweetController');
+const {read, create, postById, update, one, destroy} = require('../controllers/tweetController');
 
 
 router.get("/tweets/read", read);

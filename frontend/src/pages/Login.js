@@ -6,7 +6,7 @@ import logoh from '../components/logoh.jpeg'
 import {loginUser, auth, isAuth} from '../cores/ApiUser'
 import Loader from '../components/Loader'
 import Header from '../components/Header'
-import {Toast} from '../components/SweetAlert'
+import {Toast} from '../components/Utils'
 
 const Register = () => {
   const {register, handleSubmit, errors} = useForm()

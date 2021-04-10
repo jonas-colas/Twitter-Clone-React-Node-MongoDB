@@ -1,13 +1,14 @@
 const API = process.env.REACT_APP_API_URL;
 
-export const createPost = (userData) => {
-  return fetch(`${API}/register`, {
+export const createPost = (userId, token, newData) => {
+  return fetch(`${API}/tweets/create/${userId}`, {
     method: 'POST',
     headers:{
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
     },
-    body: JSON.stringify(userData)
+    body: JSON.stringify(newData)
   })
   .then(response => {
     return response.json();
@@ -16,7 +17,7 @@ export const createPost = (userData) => {
 };
 
 export const readPosts = () => {
-  return fetch(`${API}/users/read`, {
+  return fetch(`${API}/tweets/read`, {
     method: 'GET',
   })  
   .then(resp => {return resp.json()})

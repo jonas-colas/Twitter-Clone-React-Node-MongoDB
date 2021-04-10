@@ -3,7 +3,8 @@ const router  = express.Router();
 
 
 const {userById, requireLogin, isAuth, isAdmin} = require('../controllers/userController');
-const {read, create, update, one, destroy} = require('../controllers/tweetController');
+const {postById} = require('../controllers/tweetController');
+const {read, create, update, one, destroy} = require('../controllers/retweetController');//commentById
 
 
 router.get("/tweets/read", read);
@@ -14,5 +15,6 @@ router.delete("/tweets/destroy/:postId", requireLogin, isAuth, destroy);
 
 router.param("userId", userById);
 router.param("postId", postById);
+//router.param("commentId", commentById);
 
 module.exports = router;

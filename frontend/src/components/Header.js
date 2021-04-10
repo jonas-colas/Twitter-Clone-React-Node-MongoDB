@@ -61,7 +61,7 @@ const Header = () => {
             </Fragment>
           ) : (
             <Fragment>
-              <li className="nav-item dropdown no-arrow mx-1 osahan-list-dropdown">
+              {/* <li className="nav-item dropdown no-arrow mx-1 osahan-list-dropdown">
                 <a className="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                   <i className="feather-message-square" />
                   <span className="badge badge-danger badge-counter">8</span>
@@ -84,7 +84,7 @@ const Header = () => {
                   </a>
                   <a className="dropdown-item text-center small text-gray-500" href="messages.html">Read More Messages</a>
                 </div>
-              </li>
+              </li> */}
               <li className="nav-item dropdown no-arrow ml-1 osahan-profile-dropdown">
                 <a className="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown">
                 {user && <img className="img-profile rounded-circle" src={base+user.avatar} alt="av" />}

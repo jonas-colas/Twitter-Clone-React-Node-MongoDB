@@ -1,7 +1,7 @@
 import React, {Fragment, useState} from 'react'
 import {useForm} from 'react-hook-form'
 import {isAuth, updatePassword} from '../../cores/ApiUser'
-import {Toast} from '../SweetAlert'
+import {Toast} from '../Utils'
 
 const Password = () => {
   const {register, handleSubmit, errors} = useForm()

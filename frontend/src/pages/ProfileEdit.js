@@ -3,7 +3,7 @@ import Header from '../components/Header'
 import Form from '../components/edit/Form'
 import {isAuth, getUser} from '../cores/ApiUser'
 import Aside from '../components/edit/Aside'
-import {Toast} from '../components/SweetAlert'
+import {Toast} from '../components/Utils'
 
 const ProfileEdit = () => {
   const {user, token} = isAuth()

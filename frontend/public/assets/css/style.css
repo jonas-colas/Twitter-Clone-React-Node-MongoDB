@@ -82,7 +82,7 @@
      padding: 0;
      border: none;
      overflow: hidden;
-     width: 20rem!important;
+     width: 2rem!important;/*20rem!important;*/
 }
  .dropdown-list .dropdown-header {
      background-color: #1d2f38;
