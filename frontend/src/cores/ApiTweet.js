@@ -50,15 +50,14 @@ export const updatePost = (userId, token, userData) => {
   .catch(error => { console.log(error) });
 };
 
-export const deletePost = (userId, token, userData) => {
-  return fetch(`${API}/user/update/${userId}`, {
-    method: 'PUT',
+export const deletePost = (userId, token, postId) => {
+  return fetch(`${API}/tweets/destroy/${userId}/${postId}`, {
+    method: 'DELETE',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
     },
-    body: JSON.stringify(userData)
   })  
   .then(resp => {return resp.json()})
   .catch(error => { console.log(error) });

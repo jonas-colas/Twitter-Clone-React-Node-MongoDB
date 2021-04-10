@@ -3,16 +3,16 @@ const router  = express.Router();
 
 
 const {userById, requireLogin, isAuth, isAdmin} = require('../controllers/userController');
-const {read, create, postById, update, one, destroy} = require('../controllers/tweetController');
+const {read, create, update, one, destroy} = require('../controllers/tweetController');//postById, 
 
 
 router.get("/tweets/read", read);
 router.post("/tweets/create/:userId", requireLogin, isAuth, create);
 router.get("/tweets/:postId", one);
 router.put("/tweets/edit/:userId/:postId", requireLogin, isAuth, update);
-router.delete("/tweets/destroy/:postId", requireLogin, isAuth, destroy);
+router.delete("/tweets/destroy/:userId/:postId", requireLogin, isAuth, destroy);
 
 router.param("userId", userById);
-router.param("postId", postById);
+//router.param("postId", postById);
 
 module.exports = router;

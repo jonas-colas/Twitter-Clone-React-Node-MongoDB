@@ -37,5 +37,11 @@ exports.one = async (req, res) => {
 }
 
 exports.destroy = async (req, res) => {
-  
+  const {userId, postId} = req.params;
+  try{
+    await Tweet.deleteOne({_id: postId, user: userId})
+    res.status(200).json({msg: "Publicacíon eliminado!"})
+  }catch(e){
+    throw(e)
+  }
 }

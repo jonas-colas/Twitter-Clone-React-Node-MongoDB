@@ -4,11 +4,12 @@ import Header from '../components/Header'
 import BarLeft from '../components/BarLeft'
 import BarRight from '../components/BarRight'
 import {isAuth, getUser} from '../cores/ApiUser'
-import {createPost, readPosts} from '../cores/ApiTweet'
+import {createPost, readPosts, deletePost} from '../cores/ApiTweet'
 import {Toast, configTweet} from '../components/Utils'
 import loaderSmall from '../components/loaderSmall.gif'
 import S3 from 'aws-s3'
 import Moment from 'moment'
+import Swal from 'sweetalert2'
 
 
 const Home = () => {
@@ -112,8 +113,40 @@ const Home = () => {
     }
   }
   
-  const destroyTweet = id => {
-    console.log(id)
+  const destroyTweet = postId => {
+    Swal.fire({
+		  title: 'Eliminar?',
+		  text: "¿Estás seguro que deseas eliminar esta publicacíon?",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Si, Eliminar!'
+		}).then((result) => {
+		  if (result.isConfirmed){
+		  	setLoading(true)
+        deletePost(userId, token, postId).then(data => {
+          if(data.error){
+            setLoading(false)
+            setError(data.error)
+            Swal.fire(
+              'Error',
+              'No se pudo eliminar corectamente',
+              'Error'
+            )
+          }else{
+            setLoading(false)
+            Swal.fire(
+              'Eliminado!',
+              'Servicio eliminado!',
+              'success'
+            )
+            getPosts()
+            history.push(pathname)
+          }
+        })
+      }
+    })
   }
 
   const {_id, about, avatar, sku} = user

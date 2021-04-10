@@ -103,7 +103,7 @@ const Aside = () => {
             <div className="p-4">
               <label data-toggle="tooltip" data-placement="top"
                 className="btn btn-info m-0" htmlFor="fileAttachmentBtn">
-                <i className="feather-image" /> Upload File
+                <i className="feather-image" /> Upload foto
                 <input id="fileAttachmentBtn" name="file-attachment" type="file" className="d-none" 
                   onChange={e => picUpload(e)} />
               </label>
