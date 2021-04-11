@@ -38,7 +38,7 @@ const Register = () => {
       }else{
         auth(data, () => {
           setLoading(false)
-          history.push('/profile')
+          history.push('/profile/edit')
         })
       }
     })

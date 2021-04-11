@@ -16,7 +16,7 @@ const BarLeft = ({user, base}) => {
             <div className="py-4 px-3 border-bottom">
               <img src={base+avatar} className="img-fluid mt-2 rounded-circle" alt="Responsive" />
               <h5 className="font-weight-bold text-dark mb-1 mt-4">{name+' '+lname}</h5>
-              <p className="mb-0 text-muted">Tel: {phone}</p>
+              {phone && <p className="mb-0 text-muted">Tel: {phone}</p>}
               <p className="mb-0 text-muted">email: {email}</p>
             </div>
             <div className="d-flex">

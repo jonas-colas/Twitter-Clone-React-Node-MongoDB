@@ -53,46 +53,6 @@ const Profile = () => {
                   <p>{userInfo.about}</p>
                 </div>
               </div>
-              {/*  */}
-              <div className="box shadow-sm border rounded bg-white mb-3">
-                <div className="box-title border-bottom p-3">
-                  <h6 className="m-0">Experience</h6>
-                </div>
-                <div className="box-body p-3 border-bottom">
-                  <div className="d-flex align-items-top job-item-header pb-2">
-                    <div className="mr-2">
-                      <h6 className="font-weight-bold text-dark mb-0">Web designer</h6>
-                      <div className="text-truncate text-primary">Spotify Inc.</div>
-                      <div className="small text-gray-500">Oct 2020 - Present (4 year 7 month) </div>
-                    </div>
-                    <img className="img-fluid ml-auto mb-auto" src="/assets/img/l3.png" alt="" />
-                  </div>
-                  <p className="mb-0">Find the most qualified people in the most unexpected places. Information for applicants to consider when applying for local positions. </p>
-                </div>
-                <div className="box-body p-3 border-bottom">
-                  <div className="d-flex align-items-top job-item-header pb-2">
-                    <div className="mr-2">
-                      <h6 className="font-weight-bold text-dark mb-0">Cloud Software Engineer</h6>
-                      <div className="text-truncate text-primary">Spotify Inc.</div>
-                      <div className="small text-gray-500">Oct 2020 - Present (4 year 7 month) </div>
-                    </div>
-                    <img className="img-fluid ml-auto mb-auto" src="/assets/img/l6.png" alt="" />
-                  </div>
-                  <p className="mb-0">Find the most qualified people in the most unexpected places. Information for.. </p>
-                </div>
-                <div className="box-body p-3">
-                  <div className="d-flex align-items-top job-item-header pb-2">
-                    <div className="mr-2">
-                      <h6 className="font-weight-bold text-dark mb-0">UI/UX designer</h6>
-                      <div className="text-truncate text-primary">Behance</div>
-                      <div className="small text-gray-500">Oct 2020 - Present (4 year 7 month) </div>
-                    </div>
-                    <img className="img-fluid ml-auto mb-auto" src="/assets/img/l2.png" alt="" />
-                  </div>
-                  <p className="mb-0">Wualified people in the most unexpected places. Information for applicants to consider when applying for local positions. The largest community on the web to find and list jobs that aren't restricted by commutes or a specific location.
-                  </p>
-                </div>
-              </div>
             </main>
 
             <BarRight user={userInfo} base={base} />
